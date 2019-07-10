@@ -1,28 +1,67 @@
+$selectBarHeight: 40px;
+
 /*---generic stuff---*/
 html, body {
 	width: 100%;
 	height: 100%;
 	margin:0 auto;
 	padding: 0px;
-	background-color: #000;
 	font-size: calc(0.7em + 0.6vw);
 	overflow: hidden;
 }
 
-.holder {
+.stickyBar {
+	position: fixed;
 	width: 100%;
-	height: 100%;
-	display: grid;
+	height: auto;
+	background-color: grey;
+	min-height:5px;
+
+	&.searchBar {
+		top:0px;
+	}
 }
 
-.searchBar {
-	background-color: green;
+.visualWrapper{
+	display: grid;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	position: absolute;
+	grid-template-columns: $selectBarHeight calc(100% - #{$selectBarHeight});
+	grid-template-rows: $selectBarHeight calc(100% - #{$selectBarHeight} * 2) $selectBarHeight;
+	grid-template-areas: 
+		"header header"
+	  "yAxis svg"
+	  ". xAxis";
 }
 
 .svgHolder {
-	background-color: red;
+	background-color: #ddd;
+	grid-area: svg;
+
+	svg {
+		width:100%;
+		height: 100%;
+	}
 }
 
-.footer {
-	background-color: blue;
+.xSelect {
+	background-color: orange;
+	grid-area: xAxis;
+}
+
+.ySelect {
+	background-color: green;
+	grid-area: yAxis;
+}
+
+.dropdownHolder {
+	background-color: yellow;
+	grid-area: header;
+}
+
+
+.memberGraph {
+	position: absolute;
 }
