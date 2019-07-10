@@ -143,10 +143,10 @@ class Member{
 				//little wobble animation on mouseenter
 				d3.select(this)
 					.transition()
-					.duration(200)
-					.attr("r", function(e){ return sizeScale(e[selection["size"]] + 10)})
+					.duration(250)
+					.attr("r", function(e){ return sizeScale(e[selection["size"]] + 20)})
 					.transition()
-					.duration(200)
+					.duration(250)
 					.attr("r", function(e){ return sizeScale(e[selection["size"]])});
 			})
 			.on("click", function(d){

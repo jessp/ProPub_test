@@ -37,6 +37,10 @@ html, body {
 		font-family: 'Roboto', sans-serif;
 		font-size: 10px;
 	}
+
+	svg circle {
+		cursor: pointer;
+	}
 }
 
 .xSelect {
@@ -68,4 +72,76 @@ html, body {
 
 .dropdownHolder {
 	grid-area: header;
+}
+
+.hidden {
+	display: none;
+}
+
+#blocker{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.8);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+
+	.popup {
+		position: relative;
+	    padding: 10px 20px;
+    	box-sizing: border-box;
+		width: 80%;
+		height: 80%;
+		background-color: #fff;
+		margin: 0 auto;
+		margin-top: 5%;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-template-rows: 2fr 0.5fr 5fr 5fr 0.5fr;
+		grid-template-areas: 
+			"popupHeader popupHeader"
+			"keyInfo keyInfo"
+			"expenses votingPositions"
+			"statements statementComment"
+			"footer footer";
+
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0px;
+			padding: 0.5em 0em;
+		}
+
+		.header {
+			grid-area: popupHeader;
+		}
+
+		.keyInfo {
+			grid-area: keyInfo;
+		}
+
+		.expenses {
+			grid-area: expenses;
+		}
+
+		.votingPositions {
+			grid-area: votingPositions;
+		}
+
+		.statements {
+			grid-area: statements;
+		}
+
+		.statementComment {
+			grid-area: statementComment;
+		}
+
+		.footer {
+			grid-area: footer;
+		}
+
+		.closer {
+			position: absolute;
+			right: 10px;
+			top: 10px;
+		}
+	}
 }

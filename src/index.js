@@ -76,6 +76,10 @@ window.onload = function(e){
 		selected_dropdowns["size"],
 		scales.returnScales(),
 		"size");
+
+	d3.select(".closer").on("click", function(d){
+		d3.select("#blocker").classed("hidden", true);
+	})
 }
 
 function combineData(member_data, voting_data, spending_data){
