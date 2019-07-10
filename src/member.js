@@ -163,7 +163,7 @@ class Member{
 				d3.select(this)
 					.transition()
 					.duration(250)
-					.attr("r", function(e){ return sizeScale(e[selection["size"]] + 20)})
+					.attr("r", function(e){ return sizeScale(e[selection["size"]]) + 10})
 					.transition()
 					.duration(250)
 					.attr("r", function(e){ return sizeScale(e[selection["size"]])});
