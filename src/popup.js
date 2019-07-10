@@ -9,8 +9,9 @@ class Popup{
 		this.makeVisible = this.makeVisible.bind(this);
 	}
 
-	makeVisible(core_data){
+	makeVisible(core_data, statement_data){
 		this.core_data = core_data;
+		this.statement_data = statement_data;
 		this.holder.classed("hidden", false);
 
 		this.holder.select(".footer")
@@ -60,6 +61,40 @@ class Popup{
 				.html(core_data["youtube_id"]);
 		} else {
 			d3.select(".youtube").classed("hidden", true);
+		}
+
+		if (statement_data){
+			this.holder.select(".all_statements")
+				.selectAll(".card")
+				.data(statement_data, function(d){ return d})
+				.enter()
+				.append("div")
+				.attr("class", "card")
+				.each(function(d){
+					let thisCard = d3.select(this);
+					thisCard.append("h4").html(d["title"]);
+					let theSpan = thisCard.append("h6");
+
+					theSpan.append("span")
+						.attr("class", "bold")
+						.html("Date: ");
+
+					theSpan.append("span")
+						.html(d["date"]);
+
+					theSpan.append("span")
+						.attr("class", "bold")
+						.html("Type: ");
+
+					theSpan.append("span")
+						.html(d["type"]);
+				})
+		} else {
+			this.holder.select(".all_statements")
+				.append("div")
+				.attr("class", "card")
+				.append("h4").html("No statements...");
+
 		}
 
 	}

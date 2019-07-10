@@ -171,7 +171,8 @@ function initiateDropdown(dd, selected, scale, value){
 function activatePopup(new_popup){
 	clicked_bubble = new_popup;
 	popup.makeVisible(member_data["results"]
-			.find(function(d){ return d["id"] === new_popup}));
+			.find(function(d){ return d["id"] === new_popup}),
+			statement_data[new_popup]);
 }
 
 

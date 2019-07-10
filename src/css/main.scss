@@ -7,7 +7,6 @@ html, body {
 	height: 100%;
 	margin:0 auto;
 	padding: 0px;
-	font-size: calc(0.7em + 0.6vw);
 	overflow: hidden;
 	background-color: #ddd;
 	font-family: 'Roboto', sans-serif;
@@ -100,10 +99,11 @@ html, body {
 		margin-top: 5%;
 		display: grid;
 		grid-template-columns: 1fr;
-		grid-template-rows: 2fr 0.5fr 10fr 0.5fr;
+		grid-template-rows: 2fr 0.5fr 1fr 10fr 0.5fr;
 		grid-template-areas: 
 			"popupHeader"
 			"keyInfo"
+			"statementHeader"
 			"statements"
 			"footer";
 
@@ -127,12 +127,44 @@ html, body {
 			}
 		}
 
+		.statementHeader {
+			grid-area: statementHeader;
+		}
+
 		.statements {
 			grid-area: statements;
+		    overflow: scroll;
+		    position: relative;
+		    height: 100%;
+		}
+
+
+		.all_statements {
+			overflow: scroll;
+		}
+
+		.card {
+			border-bottom: 1px solid #ddd;
+
+			h6:not(.bold){
+				font-weight: normal;
+			}
+
+			.bold {
+				font-weight: bold;
+				&:not(:first-child){
+					margin-left: 20px;
+				}
+			}
 		}
 
 		.footer {
 			grid-area: footer;
+
+			a {
+				text-decoration: none;
+				font-size: 1.2em;
+			}
 		}
 
 		.closer {
