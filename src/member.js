@@ -2,9 +2,10 @@ import * as d3 from "d3";
 
 
 class Member{
-	constructor(data, holder, selection, scales) {
+	constructor(data, holder, selection, scales, cb) {
 		this.holder = holder;
 		this.data = data; 
+		this.cb = cb;
 		this.colourScales = {
 			"party": {"R": "IndianRed", "D": "DodgerBlue"},
 			"gender": {"M": "LightSkyBlue", "F": "LightPink"}
@@ -149,9 +150,7 @@ class Member{
 					.duration(250)
 					.attr("r", function(e){ return sizeScale(e[selection["size"]])});
 			})
-			.on("click", function(d){
-				console.log(d);
-			});
+			.on("click", (d) => this.cb(d["id"]));
 
 		itemObjects.append("text")
 			.attr("x", function(d){

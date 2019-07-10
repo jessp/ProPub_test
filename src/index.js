@@ -1,7 +1,7 @@
 import css from './css/main.scss';
-import searcher from "./searcher.js";
 import member from "./member.js";
 import scale_maker from "./scales.js";
+import popup_maker from "./popup.js";
 
 import * as d3 from "d3";
 
@@ -13,7 +13,6 @@ import spending_data from "./data/spending_history.json";
 import bill_info from "./data/bill_info.json";
 import statement_data from "./data/statements.json";
 
-let mySearcher = new searcher();
 let scales;
 let member_object;
 let selected_dropdowns = {
@@ -23,9 +22,15 @@ let selected_dropdowns = {
 	"colour": "party"
 };
 let combinedData = []; 
+let clicked_bubble = null;
+
+let popup;
 
 
 window.onload = function(e){
+
+	popup = new popup_maker();
+
 	combinedData = 
 		combineData(member_data["results"],
 		voting_data, spending_data);
@@ -40,7 +45,8 @@ window.onload = function(e){
 	member_object = 
 		new member(combinedData, 
 		d3.select(".svgHolder").select("svg"),
-		selected_dropdowns, scales.returnScales());
+		selected_dropdowns, scales.returnScales(),
+		(e) => activatePopup(e));
 
 	//initialize our colour label dropdown
 	let colourDropdown = 
@@ -79,6 +85,7 @@ window.onload = function(e){
 
 	d3.select(".closer").on("click", function(d){
 		d3.select("#blocker").classed("hidden", true);
+		clicked_bubble = null;
 	})
 }
 
@@ -138,6 +145,7 @@ function combineData(member_data, voting_data, spending_data){
 	return newArray;
 }
 
+
 function setDropdown(prop, value){
 	selected_dropdowns[prop] = value;
 	member_object.setScales(selected_dropdowns);
@@ -160,5 +168,10 @@ function initiateDropdown(dd, selected, scale, value){
 
 }
 
+function activatePopup(new_popup){
+	clicked_bubble = new_popup;
+	popup.makeVisible(member_data["results"]
+			.find(function(d){ return d["id"] === new_popup}));
+}
 
 
