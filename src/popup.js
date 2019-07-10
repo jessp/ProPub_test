@@ -1,3 +1,8 @@
+/*Our popup object
+ran low on time--ideally should have important data
+and some charts that let the user dive in
+as in, just text feed of statements :/
+*/
 import * as d3 from "d3";
 
 
@@ -9,15 +14,23 @@ class Popup{
 		this.makeVisible = this.makeVisible.bind(this);
 	}
 
+	//called from index when we click a button
 	makeVisible(core_data, statement_data){
 		this.core_data = core_data;
 		this.statement_data = statement_data;
+
+		//a few functions to clear out previously set data
 		this.holder.classed("hidden", false);
 
 		this.holder.select(".footer")
 			.selectAll("a")
 			.classed("hidden", false);
 
+		this.holder.select(".all_statements")
+				.selectAll(".card")
+				.remove();
+
+		//set basic data
 		this.holder
 			.select(".header")
 			.select("h1")
@@ -36,6 +49,7 @@ class Popup{
 			.select(".partyField")
 			.html(party_dict[core_data["party"]] ? party_dict[core_data["party"]] : core_data["party"]);
 	
+		//populate social media links
 		if (core_data["twitter_id"]){
 			this.holder.select(".twitter")
 				.attr("url", "https://twitter.com/" + core_data["twitter_id"])
@@ -63,6 +77,7 @@ class Popup{
 			d3.select(".youtube").classed("hidden", true);
 		}
 
+		//do a text feed of statements
 		if (statement_data){
 			this.holder.select(".all_statements")
 				.selectAll(".card")

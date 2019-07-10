@@ -1,8 +1,11 @@
 import css from './css/main.scss';
+
+//my classes
 import member from "./member.js";
 import scale_maker from "./scales.js";
 import popup_maker from "./popup.js";
 
+//only using d3 to keep it simple
 import * as d3 from "d3";
 
 //let's temporarily load data from a json file
@@ -13,6 +16,7 @@ import spending_data from "./data/spending_history.json";
 import bill_info from "./data/bill_info.json";
 import statement_data from "./data/statements.json";
 
+//active selections---effectively the state
 let scales;
 let member_object;
 let selected_dropdowns = {
@@ -26,15 +30,17 @@ let clicked_bubble = null;
 
 let popup;
 
-
+//initiate a bunch of stuff
 window.onload = function(e){
 
 	popup = new popup_maker();
 
+	//function to put all out api results into one
 	combinedData = 
 		combineData(member_data["results"],
 		voting_data, spending_data);
 
+	//calculate scale domains for a bunch of different measures
 	scales = new scale_maker(
 		member_data["results"],
 		voting_data,
@@ -42,6 +48,7 @@ window.onload = function(e){
 		bill_info,
 		statement_data);
 
+	//these are out dots
 	member_object = 
 		new member(combinedData, 
 		d3.select(".svgHolder").select("svg"),
@@ -89,9 +96,11 @@ window.onload = function(e){
 	})
 }
 
+//put all our data into a single array
 function combineData(member_data, voting_data, spending_data){
 	let newArray = [];
 	for (var i = 0; i < member_data.length; i++){
+		//basic info
 		let member = 
 		{	
 			"id": member_data[i]["id"],
@@ -100,7 +109,7 @@ function combineData(member_data, voting_data, spending_data){
 			"seniority": parseInt(member_data[i]["seniority"]),
 			"gender": member_data[i]["gender"]
 		};
-
+		//total votes, and total votes yay/nay calculation
 		let total_keys = 0;
 		let total_yes = 0;
 		let total_no = 0;
@@ -117,6 +126,7 @@ function combineData(member_data, voting_data, spending_data){
 		member["percent_yes"] = total_yes/total_keys;
 		member["percent_no"] = total_no/total_keys;
 
+		//calculate positive votes for bills sponsored by members of different parties
 		let total_dem_support = 0;
 		let total_dem_votes = 0;
 		let total_rep_support = 0;
@@ -136,6 +146,7 @@ function combineData(member_data, voting_data, spending_data){
 		member["percent_support_rep"] = total_rep_support/total_rep_votes;
 		member["percent_support_dem"] = total_dem_support/total_dem_votes;
 
+		//median travel spending
 		let median_spending = d3.median(spending_data[member["id"]], function (e){ return e.spending});
 		member["median_travel_expenses"] = median_spending;
 		member["total_statements"] = statement_data[member["id"]] ? statement_data[member["id"]].length : 0;
@@ -145,12 +156,13 @@ function combineData(member_data, voting_data, spending_data){
 	return newArray;
 }
 
-
+//we call this when we change one of the dropdowns
 function setDropdown(prop, value){
 	selected_dropdowns[prop] = value;
 	member_object.setScales(selected_dropdowns);
 }
 
+///a function that takes possible scale values and initiates a dropdown
 function initiateDropdown(dd, selected, scale, value){
 	let dropdown = 
 		dd.selectAll("option")
@@ -168,6 +180,7 @@ function initiateDropdown(dd, selected, scale, value){
 
 }
 
+//open a popup
 function activatePopup(new_popup){
 	clicked_bubble = new_popup;
 	popup.makeVisible(member_data["results"]

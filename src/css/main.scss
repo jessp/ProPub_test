@@ -16,6 +16,7 @@ html, body {
 	font-weight: bold;
 }
 
+/*Using grid layout a lot to keep it simple*/
 .visualWrapper{
 	display: grid;
 	width: 100%;
@@ -79,6 +80,8 @@ html, body {
 .hidden {
 	display: none;
 }
+
+/*Pop-up stuff*/
 
 #blocker{
 	width: 100%;

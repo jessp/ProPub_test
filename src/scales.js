@@ -1,17 +1,22 @@
+//scale objects
+
 import * as d3 from "d3";
 
 
 class Scale{
 	constructor(member_data, voting_data, spending_data, bill_info, statement_data) {
+		//set with data from master
 		this.member_data = member_data;
 		this.voting_data = voting_data;
 		this.spending_data = spending_data;
 		this.bill_info = bill_info;
 		this.statement_data = statement_data;
+		//bind functions
 		this.initiateScales = this.initiateScales.bind(this);
 		this.initiatePercentScales = this.initiatePercentScales.bind(this);
 		this.initiateSupportScales = this.initiateSupportScales.bind(this);
 
+		//i included a short name for smaller screens in future iterations
 		this.scales = {
 			"seniority": {
 				"scale": [],
@@ -87,6 +92,7 @@ class Scale{
 		this.scales.percent_support_rep.scale = this.initiateSupportScales(this.scales.percent_support_rep.scale, "R");
 	}
 
+	//initiate scales showing positive support for rep or dom bills
 	initiateSupportScales(scale, search){
 		let bill_info = this.bill_info;
 		return d3.extent(Object.values(this.voting_data),
@@ -104,6 +110,7 @@ class Scale{
 			});
 	}
 
+	//initiate scales showing "yes" vs. "no votes"
 	initiatePercentScales(scale, search){
 		return d3.extent(Object.values(this.voting_data),
 			 function(d){
