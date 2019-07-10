@@ -2,11 +2,12 @@ import * as d3 from "d3";
 
 
 class Scale{
-	constructor(member_data, voting_data, spending_data, bill_info) {
+	constructor(member_data, voting_data, spending_data, bill_info, statement_data) {
 		this.member_data = member_data;
 		this.voting_data = voting_data;
 		this.spending_data = spending_data;
 		this.bill_info = bill_info;
+		this.statement_data = statement_data;
 		this.initiateScales = this.initiateScales.bind(this);
 		this.initiatePercentScales = this.initiatePercentScales.bind(this);
 		this.initiateSupportScales = this.initiateSupportScales.bind(this);
@@ -46,6 +47,11 @@ class Scale{
 				"scale": [],
 				"full_name": "Percent \"Yes\" on Democratic Sponsored Bills",
 				"short_name": "Perc. Democratic Support"
+			},
+			"total_statements": {
+				"scale": [],
+				"full_name": "Total Statements",
+				"short_name": "Total Statements"
 			}
 		};
 
@@ -68,6 +74,10 @@ class Scale{
 		this.scales.median_travel_expenses.scale = (d3.extent(Object.values(this.spending_data), function(d){
 			let expenses = d3.median(d.map((e) => e.spending));
 			return expenses;
+		}));
+
+		this.scales.total_statements.scale = (d3.extent(Object.values(this.statement_data), function(d){
+			return d.length;
 		}));
 
 		this.scales.percent_yes.scale = this.initiatePercentScales(this.scales.percent_yes.scale, "Yes");

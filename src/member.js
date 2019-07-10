@@ -6,8 +6,8 @@ class Member{
 		this.holder = holder;
 		this.data = data; 
 		this.colourScales = {
-			"party": {"R": "red", "D": "navy"},
-			"gender": {"M": "blue", "F": "pink"}
+			"party": {"R": "IndianRed", "D": "DodgerBlue"},
+			"gender": {"M": "LightSkyBlue", "F": "LightPink"}
 		};
 		this.margins = {
 			"top": 40,
@@ -112,6 +112,14 @@ class Member{
 				return sizeScale(d[selection["size"]])
 			});
 
+		this.holder
+		.selectAll(".memberGraph")
+		.select("text")
+		.transition().duration(300)
+		.attr("x", function(d){
+				return sizeScale(d[selection["size"]]) + 5
+			});
+
 		itemObjects.append("circle")
 			.attr("fill", function(d){ 
 				if (colourScales[d[selection["colour"]]]){
@@ -130,9 +138,26 @@ class Member{
 			})
 			.attr("r", function(d){
 				return sizeScale(d[selection["size"]])
+			})
+			.on("mouseenter", function(d){
+				//little wobble animation on mouseenter
+				d3.select(this)
+					.transition()
+					.duration(200)
+					.attr("r", function(e){ return sizeScale(e[selection["size"]] + 10)})
+					.transition()
+					.duration(200)
+					.attr("r", function(e){ return sizeScale(e[selection["size"]])});
+			})
+			.on("click", function(d){
+				console.log(d);
 			});
 
 		itemObjects.append("text")
+			.attr("x", function(d){
+				return sizeScale(d[selection["size"]]) + 5
+			})
+			.attr("dy", 5)
 			.html(function(d) {return d.name});
 
 		items.exit().remove();

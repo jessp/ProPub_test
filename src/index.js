@@ -11,6 +11,7 @@ import member_data from "./data/members.json";
 import voting_data from "./data/voting_history.json";
 import spending_data from "./data/spending_history.json";
 import bill_info from "./data/bill_info.json";
+import statement_data from "./data/statements.json";
 
 let mySearcher = new searcher();
 let scales;
@@ -18,7 +19,7 @@ let member_object;
 let selected_dropdowns = {
 	"xAxis": "seniority",
 	"yAxis": "median_travel_expenses",
-	"size": "total_votes",
+	"size": "total_statements",
 	"colour": "party"
 };
 let combinedData = []; 
@@ -33,7 +34,8 @@ window.onload = function(e){
 		member_data["results"],
 		voting_data,
 		spending_data,
-		bill_info);
+		bill_info,
+		statement_data);
 
 	member_object = 
 		new member(combinedData, 
@@ -125,6 +127,7 @@ function combineData(member_data, voting_data, spending_data){
 
 		let median_spending = d3.median(spending_data[member["id"]], function (e){ return e.spending});
 		member["median_travel_expenses"] = median_spending;
+		member["total_statements"] = statement_data[member["id"]] ? statement_data[member["id"]].length : 0;
 		newArray.push(member);
 	}
 
