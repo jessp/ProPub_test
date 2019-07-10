@@ -2,12 +2,14 @@ import * as d3 from "d3";
 
 
 class Scale{
-	constructor(member_data, voting_data, spending_data) {
+	constructor(member_data, voting_data, spending_data, bill_info) {
 		this.member_data = member_data;
 		this.voting_data = voting_data;
 		this.spending_data = spending_data;
+		this.bill_info = bill_info;
 		this.initiateScales = this.initiateScales.bind(this);
 		this.initiatePercentScales = this.initiatePercentScales.bind(this);
+		this.initiateSupportScales = this.initiateSupportScales.bind(this);
 
 		this.scales = {
 			"seniority": {
@@ -70,6 +72,26 @@ class Scale{
 
 		this.scales.percent_yes.scale = this.initiatePercentScales(this.scales.percent_yes.scale, "Yes");
 		this.scales.percent_no.scale = this.initiatePercentScales(this.scales.percent_no.scale, "No");
+	
+		this.scales.percent_support_dem.scale = this.initiateSupportScales(this.scales.percent_support_dem.scale, "D");
+		this.scales.percent_support_rep.scale = this.initiateSupportScales(this.scales.percent_support_rep.scale, "R");
+	}
+
+	initiateSupportScales(scale, search){
+		let bill_info = this.bill_info;
+		return d3.extent(Object.values(this.voting_data),
+			 function(d){
+			 	let total_votes_of_type = 0;
+			 	let total_match = 0;
+			 	for (var i = 0; i < Object.keys(d).length; i++){
+			 		if (bill_info[Object.keys(d)[i]] && 
+			 			bill_info[Object.keys(d)[i]]["sponsor_party"] === search){
+			 			total_match += Object.values(d[Object.keys(d)[i]]).filter(function(d){ return d === "Yes"}).length;
+			 			total_votes_of_type += Object.keys(d[Object.keys(d)[i]]).length;
+			 		}
+			 	}
+			 	return total_match/total_votes_of_type;
+			});
 	}
 
 	initiatePercentScales(scale, search){
