@@ -24,7 +24,7 @@ class Scale{
 			},
 			"total_votes": {
 				"scale": [],
-				"full_name": "Total # Votes Passed",
+				"full_name": "Total # Votes Cast",
 				"short_name": "total votes"
 			},
 			"percent_yes": {
@@ -39,12 +39,12 @@ class Scale{
 			},
 			"percent_support_rep": {
 				"scale": [],
-				"full_name": "Percent Support on Republican Sponsored Bills",
+				"full_name": "Percent \"Yes\" on Republican Sponsored Bills",
 				"short_name": "Perc. Republican Support"
 			},
 			"percent_support_dem": {
 				"scale": [],
-				"full_name": "Percent Support on Democratic Sponsored Bills",
+				"full_name": "Percent \"Yes\" on Democratic Sponsored Bills",
 				"short_name": "Perc. Democratic Support"
 			}
 		};

@@ -6,22 +6,43 @@ class Member{
 		this.holder = holder;
 		this.data = data; 
 		this.colourScales = {
-			"party": {"R": "navy", "D": "red"},
+			"party": {"R": "red", "D": "navy"},
 			"gender": {"M": "blue", "F": "pink"}
 		};
+		this.margins = {
+			"top": 40,
+			"left": 60,
+			"right": 0,
+			"bottom": 40
+		};
+		this.width = this.holder.node().width.baseVal.value;
+		this.height = this.holder.node().height.baseVal.value;
+
+		this.holder
+		.attr("viewBox", [0, 0, this.width, this.height]);
 
 		this.selection = selection;
 		this.scales = scales;
 		this.drawCharts = this.drawCharts.bind(this);
 		this.xScale = d3.scaleLinear()
-			.range([0, this.holder.node().width.baseVal.value]);
+			.range([this.margins.left, this.width - this.margins.left - this.margins.right]);
 		this.xScale.domain(scales[selection["xAxis"]].scale);
 		this.yScale = d3.scaleLinear()
-			.range([this.holder.node().height.baseVal.value, 0]);
+			.range([this.height - this.margins.bottom, this.margins.top]);
 		this.yScale.domain(scales[selection["yAxis"]].scale);
 		this.sizeScale = d3.scaleLinear()
 			.range([5, 20]);
 		this.sizeScale.domain(scales[selection["size"]].scale);
+
+		this.xAxis = this.holder.append("g").attr("class", "xAxis")
+    		.attr("transform", "translate(0," + (this.height - this.margins.bottom) + ")")
+    		.call(d3.axisBottom(this.xScale)
+    				.ticks(this.width / 80).tickSizeOuter(0));
+    
+    	this.yAxis = this.holder.append("g").attr("class", "yAxis")
+	    	.attr("transform", "translate(" + this.margins.left + ",0)")
+	    	.call(d3.axisLeft(this.yScale)
+    				.ticks(this.height / 80).tickSizeOuter(0));
 
 		this.drawCharts();
 	}
@@ -31,6 +52,15 @@ class Member{
 		this.xScale.domain(this.scales[selection["xAxis"]].scale);
 		this.yScale.domain(this.scales[selection["yAxis"]].scale);
 		this.sizeScale.domain(this.scales[selection["size"]].scale);
+
+		this.xAxis
+    		.call(d3.axisBottom(this.xScale)
+    				.ticks(this.width / 80).tickSizeOuter(0));
+
+    	this.yAxis
+    		.call(d3.axisLeft(this.yScale)
+    				.ticks(this.height / 80).tickSizeOuter(0));
+
 		this.drawCharts();
 	}
 

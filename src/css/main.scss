@@ -8,18 +8,7 @@ html, body {
 	padding: 0px;
 	font-size: calc(0.7em + 0.6vw);
 	overflow: hidden;
-}
-
-.stickyBar {
-	position: fixed;
-	width: 100%;
-	height: auto;
-	background-color: grey;
-	min-height:5px;
-
-	&.searchBar {
-		top:0px;
-	}
+	background-color: #ddd;
 }
 
 .visualWrapper{
@@ -37,7 +26,6 @@ html, body {
 }
 
 .svgHolder {
-	background-color: #ddd;
 	grid-area: svg;
 
 	svg {
@@ -47,21 +35,32 @@ html, body {
 }
 
 .xSelect {
-	background-color: orange;
 	grid-area: xAxis;
+	text-align: center;
 }
 
 .ySelect {
-	background-color: green;
 	grid-area: yAxis;
+	text-align: center;
+	position: relative;
+	width: 100%;
+	height: 100%;
+
+	.ySelectWrapper {
+		top: 50%;
+		transform: translateY(-50%);
+    	position: absolute;
+	}
+
+	select {
+		 -moz-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+		  -webkit-transform: translateX(-50%) translateY(-50%) rotate(-90deg);
+		  transform:  translateX(-50%) translateY(-50%) rotate(-90deg);
+  		left: calc(#{$selectBarHeight}/2);
+  		position: absolute;
+	}
 }
 
 .dropdownHolder {
-	background-color: yellow;
 	grid-area: header;
-}
-
-
-.memberGraph {
-	position: absolute;
 }
