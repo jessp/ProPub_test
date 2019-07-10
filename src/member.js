@@ -71,6 +71,13 @@ class Member{
 					return "#444";
 				}
 			})
+			.attr("stroke", function(d){
+				if (colourScales[d[selection["colour"]]]){
+					return d3.color(colourScales[d[selection["colour"]]]).darker();
+				} else {
+					return d3.color("#444").darker(0.25);
+				}
+			})
 			.attr("r", function(d){
 				return sizeScale(d[selection["size"]])
 			});
@@ -81,6 +88,14 @@ class Member{
 					return colourScales[d[selection["colour"]]];
 				} else {
 					return "#444";
+				}
+			})
+			.attr("stroke-width", 2)
+			.attr("stroke", function(d){
+				if (colourScales[d[selection["colour"]]]){
+					return d3.color(colourScales[d[selection["colour"]]]).darker();
+				} else {
+					return d3.color("#444").darker(0.25);
 				}
 			})
 			.attr("r", function(d){

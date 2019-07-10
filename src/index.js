@@ -38,20 +38,37 @@ window.onload = function(e){
 		d3.select(".svgHolder").select("svg"),
 		selected_dropdowns, scales.returnScales());
 
-		initiateDropdown(d3.select("#xSelect"), 
-			selected_dropdowns["xAxis"],
-			scales.returnScales(),
-			"xAxis");
+	let colourDropdown = 
+		d3.select("#colorBy")
+		.selectAll("option")
+		.data([{"value": "party", "name": "Party"}, 
+			{"value": "gender", "name": "Gender"}], 
+			function(d){ return d.value})
+		.enter()
+		.append("option")
+		.attr("value", function(d){ return d.value})
+		.property("selected", function(d){ return d === selected_dropdowns["colour"]})
+		.html(function(d){ return d.name});
 
-		initiateDropdown(d3.select("#ySelect"), 
-			selected_dropdowns["yAxis"],
-			scales.returnScales(),
-			"yAxis");
+	d3.select("#colorBy").on("change", function(d){
+		let thisValue = this.value;
+		setDropdown("colour", thisValue); 
+	})
 
-		initiateDropdown(d3.select("#sizeBy"), 
-			selected_dropdowns["size"],
-			scales.returnScales(),
-			"size");
+	initiateDropdown(d3.select("#xSelect"), 
+		selected_dropdowns["xAxis"],
+		scales.returnScales(),
+		"xAxis");
+
+	initiateDropdown(d3.select("#ySelect"), 
+		selected_dropdowns["yAxis"],
+		scales.returnScales(),
+		"yAxis");
+
+	initiateDropdown(d3.select("#sizeBy"), 
+		selected_dropdowns["size"],
+		scales.returnScales(),
+		"size");
 }
 
 function combineData(member_data, voting_data, spending_data){
